@@ -46,7 +46,7 @@ class Tia(object):
         elif not value:
             # start of vblank (ie top of screen)
             self.in_vblank = False
-            self.current_scanline = 0
+            self.current_scan_line = 0
             self.current_line_clk = 0
 
     def write(self, address, value):
