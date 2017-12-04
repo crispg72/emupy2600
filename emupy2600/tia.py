@@ -17,6 +17,8 @@ class tia(object):
 		self.current_scan_line = 0
 		self.current_line_clk = 0
 		self.write_fn = {
+			0x00: self.write_vsync
+			0x01: self.write_vblank
 			0x02: self.write_wsync
 			0x09: self.write_colubk
 		}
@@ -34,6 +36,18 @@ class tia(object):
 
 		self.current_line_clk = 0
 		self.current_scanline += 1
+
+	def write_vsync(self, value):
+		self.in_vsync = value
+
+	def write_vblank(self, value):
+		if value & 0x02:
+			self.in_vblank = True
+		else if not value:
+			# start of vblank (ie top of screen)
+			self.in_vblank = False
+			self.current_scanline = 0
+			self.current_line_clk = 0
 
 	def write(self, address, value):
 		register = address & 0xff
