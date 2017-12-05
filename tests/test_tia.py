@@ -1,4 +1,6 @@
 import pytest
+from unittest.mock import MagicMock
+
 from emupy2600.tia import Tia
 
 
@@ -15,7 +17,7 @@ def test_clear_vblank():
     assert tia.current_line_clk == 0
 
 
-def test_vertical_blanking():
+def test_vertical_synch():
     tia = Tia()
 
     tia.current_scan_line = 999
@@ -31,3 +33,28 @@ def test_vertical_blanking():
     assert tia.current_line_clk == 0
     assert tia.current_scan_line == 3
     assert not tia.in_vsync
+
+
+def test_vertical_blank():
+    mock_display = MagicMock()
+    mock_display.draw_horizontal_line = MagicMock()
+    tia = Tia(display_driver = mock_display)
+
+    tia.current_scan_line = 999
+    tia.write(0x01, 0) # VBLANK 0
+    tia.write(0x00, 2) # VSYNC 2
+    
+    tia.write(0x02, 2)
+    tia.write(0x02, 2)
+    tia.write(0x02, 2) # WSYNC x 3
+
+    tia.write(0x00, 0) # VSYNC 0
+
+    for c in range(0, 37):
+        tia.write(0x02, 0) # WSYNC x 37
+
+    assert tia.current_line_clk == 0
+    assert tia.current_scan_line == 40
+    assert not tia.in_vsync
+    assert not tia.in_vblank
+    assert not mock_display.draw_horizontal_line.called
