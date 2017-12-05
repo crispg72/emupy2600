@@ -2,6 +2,8 @@
   python:
     - 3.6
     - nightly
+  before_install:
+    - pip install pytest pytest-cov
   install:
     - python setup.py -q install
   script:
