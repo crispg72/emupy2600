@@ -5,4 +5,5 @@
   install:
     - python setup.py -q install
   script:
-    - pytest
+    - pytest -v --cov emupy2600 --cov-report term-missing
+
