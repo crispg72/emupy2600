@@ -35,7 +35,7 @@ class Tia(object):
             )
 
         self.current_line_clk = 0
-        self.current_scanline += 1
+        self.current_scan_line += 1
 
     def write_vsync(self, value):
         self.in_vsync = value
