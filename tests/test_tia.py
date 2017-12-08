@@ -75,3 +75,18 @@ def test_vertical_overscan():
     assert tia.current_scan_line == 262
     assert tia.in_vblank
     assert not mock_display.draw_horizontal_line.called
+
+
+def test_single_colour_line():
+    mock_display = MagicMock()
+    mock_display.draw_horizontal_line = MagicMock()
+    tia = Tia(display_driver = mock_display)
+
+    tia.current_scan_line = 40
+
+    tia.write(0x09, 1) # COLUBK 
+    tia.write(0x02, 0) # WSYNC
+
+    assert tia.current_line_clk == 0
+    assert tia.current_scan_line == 41
+    assert mock_display.draw_horizontal_line.called_once
