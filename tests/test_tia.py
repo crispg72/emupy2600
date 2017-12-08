@@ -58,3 +58,20 @@ def test_vertical_blank():
     assert not tia.in_vsync
     assert not tia.in_vblank
     assert not mock_display.draw_horizontal_line.called
+
+
+def test_vertical_overscan():
+    mock_display = MagicMock()
+    mock_display.draw_horizontal_line = MagicMock()
+    tia = Tia(display_driver = mock_display)
+
+    tia.current_scan_line = 232
+    tia.write(0x01, 0x2) # VBLANK 0
+
+    for c in range(0, 30):
+        tia.write(0x02, 0) # WSYNC x 30
+
+    assert tia.current_line_clk == 0
+    assert tia.current_scan_line == 262
+    assert tia.in_vblank
+    assert not mock_display.draw_horizontal_line.called
