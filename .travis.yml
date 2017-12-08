@@ -7,7 +7,7 @@
   install:
     - python setup.py -q install
   script:
-    - pytest -v --cov emupy2600 --cov-report term-missing
+    - pytest -v --cov emupy2600 
   after_success:
     - coveralls
 
