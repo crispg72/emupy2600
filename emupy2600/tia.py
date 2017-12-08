@@ -6,6 +6,7 @@ class Tia(object):
         self, mode = 'PAL',
         display_driver = None):
 
+        self.display_driver = display_driver
         if mode == "PAL":
             self.total_scan_lines = 312
             self.clocks_per_line = 228
@@ -55,6 +56,6 @@ class Tia(object):
 
     def current_scanline_visible(self):
         return (
-            self.current_scan_line > 40 and
+            self.current_scan_line >= 40 and
             self.current_scan_line < 232
         )
