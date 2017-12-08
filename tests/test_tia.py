@@ -66,7 +66,7 @@ def test_vertical_overscan():
     tia = Tia(display_driver = mock_display)
 
     tia.current_scan_line = 232
-    tia.write(0x01, 0x2) # VBLANK 0
+    tia.write(0x01, 0x2) # VBLANK ON
 
     for c in range(0, 30):
         tia.write(0x02, 0) # WSYNC x 30
@@ -75,6 +75,7 @@ def test_vertical_overscan():
     assert tia.current_scan_line == 262
     assert tia.in_vblank
     assert not mock_display.draw_horizontal_line.called
+    assert mock_display.end_frame.called
 
 
 def test_single_colour_line():
