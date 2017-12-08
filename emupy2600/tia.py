@@ -44,6 +44,7 @@ class Tia(object):
     def write_vblank(self, value):
         if value & 0x02:
             self.in_vblank = True
+            self.display_driver.end_frame()
         elif not value:
             # start of vblank (ie top of screen)
             self.in_vblank = False
