@@ -3,11 +3,11 @@
     - 3.6
     - nightly
   before_install:
-    - pip install pytest pytest-cov coveralls
+    - pip install pytest pytest-cov codecov
   install:
     - python setup.py -q install
   script:
     - pytest -v --cov emupy2600 
   after_success:
-    - coveralls
+    - codecov
 
