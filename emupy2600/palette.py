@@ -4,7 +4,7 @@ class Palette(object):
 	def __init__(self):
 		self.palette_lookup = {}
 
-	def IndexToRGB(self, int index):
+	def IndexToRGB(self, index):
 		return self.palette_lookup[index]
 
 class PAL_Colours(Palette):
@@ -18,7 +18,7 @@ class PAL_Colours(Palette):
 			8: (148, 148, 148),
 			10: (180, 180, 180),
 			12: (208, 208, 208),
-			30: (236, 236, 236),
+			14: (236, 236, 236),
 			16: (0, 0, 0),
 			18: (40, 40, 40),
 			20: (80, 80, 80),
