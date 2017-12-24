@@ -5,7 +5,7 @@ class Palette(object):
 		self.palette_lookup = {}
 
 	def IndexToRGB(self, index):
-		return self.palette_lookup[index]
+		return self.palette_lookup[index & 0xFE]
 
 class PAL_Colours(Palette):
 
