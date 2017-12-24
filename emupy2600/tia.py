@@ -1,4 +1,5 @@
 
+from emupy2600.palette import PAL_Colours, NTSC_Colours
 
 class Tia(object):
 
@@ -10,9 +11,11 @@ class Tia(object):
         if mode == "PAL":
             self.total_scan_lines = 312
             self.clocks_per_line = 228
+            self.palette = PAL_Colours()
         else:
             self.total_scan_lines = 262
             self.clocks_per_line = 228
+            self.palette = NTSC_Colours()
 
         self.background_colour = 0
         self.current_scan_line = 0
@@ -25,14 +28,15 @@ class Tia(object):
         }
 
     def write_colubk(self, value):
-        self.background_colour = value
+        self.background_colour = self.palette.IndexToRGB(value)
 
     def write_wsync(self, value):
         if self.current_scanline_visible():
             self.display_driver.draw_horizontal_line(
                 self.clocks_per_line - self.current_line_clk,
                 228,
-                self.current_scan_line
+                self.current_scan_line - 40,
+                self.background_colour
             )
 
         self.current_line_clk = 0
