@@ -33,8 +33,8 @@ class Tia(object):
     def write_wsync(self, value):
         if self.current_scanline_visible():
             self.display_driver.draw_horizontal_line(
-                self.clocks_per_line - self.current_line_clk,
-                228,
+                self.get_current_raster_x(),
+                160,
                 self.current_scan_line - 40,
                 self.background_colour
             )
@@ -63,4 +63,12 @@ class Tia(object):
         return (
             self.current_scan_line >= 40 and
             self.current_scan_line < 232
+        )
+
+    def get_current_raster_x(self):
+        return int( 
+            (
+            float(self.cpu.total_cycles - 
+                self.current_line_clk) / 
+            float(self.cpuclocks_per_line)) * 160
         )
