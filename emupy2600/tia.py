@@ -5,17 +5,19 @@ class Tia(object):
 
     def __init__(
         self, mode = 'PAL',
-        display_driver = None):
+        display_driver = None, 
+        cpu = None):
 
         self.display_driver = display_driver
+        self.cpu = cpu
         if mode == "PAL":
             self.total_scan_lines = 312
-            self.clocks_per_line = 228
             self.palette = PAL_Colours()
         else:
             self.total_scan_lines = 262
-            self.clocks_per_line = 228
             self.palette = NTSC_Colours()
+
+        self.cpuclocks_per_line = 76
 
         self.background_colour = 0
         self.current_scan_line = 0
